@@ -52,12 +52,12 @@ $(info ************ LOGGING ENABLED ************)
 endif
 
 ifndef COIN
-COIN=ATOM
+COIN=DSM
 endif
 
 $(info COIN  = [$(COIN)])
 
-ifeq ($(COIN),ATOM)
+ifeq ($(COIN),DSM)
 # Main app configuration
 APPNAME = "Desmos"
 APPPATH = "44'/852'"
