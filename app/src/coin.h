@@ -42,7 +42,7 @@ typedef enum {
 #define APPVERSION_LINE1                   "Version:"
 #define APPVERSION_LINE2                   ("v" APPVERSION)
 
-#define COIN_DEFAULT_CHAINID                "desmos-1"
+#define COIN_DEFAULT_CHAINID                "desmos-mainnet"
 
 // In non-expert mode, the app will convert from udesmos to DESMOS
 #define COIN_DEFAULT_DENOM_BASE             "udesmos"
