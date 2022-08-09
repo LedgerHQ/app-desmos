@@ -45,8 +45,8 @@ typedef enum {
 #define COIN_DEFAULT_CHAINID                "desmos-mainnet"
 
 // In non-expert mode, the app will convert from udesmos to DESMOS
-#define COIN_DEFAULT_DENOM_BASE             "udesmos"
-#define COIN_DEFAULT_DENOM_REPR             "DESMOS"
+#define COIN_DEFAULT_DENOM_BASE             "udsm"
+#define COIN_DEFAULT_DENOM_REPR             "DSM"
 #define COIN_DEFAULT_DENOM_FACTOR           6
 #define COIN_DEFAULT_DENOM_TRIMMING         6
 
