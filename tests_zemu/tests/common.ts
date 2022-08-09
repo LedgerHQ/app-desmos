@@ -40,12 +40,12 @@ export const DEVICE_MODELS: DeviceModel[] = [
 
 export const example_tx_str_basic = {
   account_number: '108',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -55,15 +55,15 @@ export const example_tx_str_basic = {
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
-        validator_address: 'cosmosvaloper1kn3wugetjuy4zetlq6wadchfhvu3x740ae6z6x',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
+        validator_address: 'desmosvaloper1nxu2qzdheycs58k6j9xgvpz3n35a4rvn8dydw2',
       },
     },
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
-        validator_address: 'cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
+        validator_address: 'desmosvaloper1gupgnsfgvs08watwtfdl4a5r9589cus3f36mhz',
       },
     },
   ],
@@ -140,7 +140,7 @@ export const example_tx_str_combined = {
 
 export const example_tx_str_basic2 = {
   account_number: '482',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   fee: {
     amount: [],
     gas: '10000000',
@@ -153,11 +153,11 @@ export const example_tx_str_basic2 = {
         coins: [
           {
             amount: '20139397',
-            asset: 'uatom',
+            asset: 'udsm',
           },
         ],
         memo: 'memo_text_goes_here',
-        signer: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        signer: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
       },
     },
   ],
@@ -201,12 +201,12 @@ export const example_tx_str_basic_extra_fields = {
 
 export const ibc_denoms = {
   account_number: "0",
-  chain_id: "cosmoshub-4",
+  chain_id: "desmos-mainnet",
   fee: {
     amount: [
       {
         "amount": '5',
-        "denom": 'uatom',
+        "denom": 'udsm',
       }
     ],
     gas: '10000',
@@ -216,7 +216,7 @@ export const ibc_denoms = {
     {
       inputs: [
         {
-          address: "cosmosaccaddr1d9h8qat5e4ehc5",
+          address: "desmosaccaddr1d9h8qat5e4ehc5",
           coins: [
             {
               amount: '10',
@@ -227,7 +227,7 @@ export const ibc_denoms = {
       ],
       outputs: [
         {
-          address: 'cosmosaccaddr1da6hgur4wse3jx32',
+          address: 'desmosaccaddr1da6hgur4wse3jx32',
           coins: [
             {
               amount: '10',
