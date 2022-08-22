@@ -1,14 +1,6 @@
 # Ledger Desmos app
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GithubActions](https://github.com/cosmos/ledger-cosmos/actions/workflows/main.yml/badge.svg)](https://github.com/cosmos/ledger-cosmos/blob/main/.github/workflows/main.yaml)
-
----
-
-![zondax](docs/zondax.jpg)
-
-_Please visit our website at [zondax.ch](zondax.ch)_
-
----
+[![GithubActions](https://github.com/desmos-labs/ledger-desmos/actions/workflows/main.yml/badge.svg)](https://github.com/desmos-labs/ledger-desmos/blob/main/.github/workflows/main.yaml)
 
 This project contains the Desmos app for Ledger Nano S and X. This project is forked from [Ledger Cosmos app](https://github.com/LedgerHQ/app-cosmos).
 
