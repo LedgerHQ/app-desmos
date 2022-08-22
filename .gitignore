@@ -80,6 +80,7 @@ cmake-build-fuzz/
 \deps/*
 !\deps/nanos-secure-sdk
 !\deps/nanox-secure-sdk
+!\deps/nanosplus-secure-sdk
 !\deps/ledger-zxlib
 !\deps/tinycbor
 !\deps/BLAKE
