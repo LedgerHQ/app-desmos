@@ -83,6 +83,7 @@ cmake-build-fuzz/
 !\deps/nanosplus-secure-sdk
 !\deps/ledger-zxlib
 !\deps/tinycbor
+!\deps/tinycbor-ledger
 !\deps/BLAKE
 
 app/src/glyphs.c
