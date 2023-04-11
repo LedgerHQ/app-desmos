@@ -97,7 +97,7 @@ describe('Standard', function () {
       await sim.start({
         ...defaultOptions,
         model: m.name,
-        approveKeyword: m.name === 'stax' ? 'Cancel' : '',
+        approveKeyword: m.name === 'stax' ? 'QR' : '',
         approveAction: ButtonKind.ApproveTapButton,
       })
       const app = new CosmosApp(sim.getTransport())
@@ -180,7 +180,7 @@ describe('Standard', function () {
       await sim.start({
         ...defaultOptions,
         model: m.name,
-        approveKeyword: m.name === 'stax' ? 'Cancel' : '',
+        approveKeyword: m.name === 'stax' ? 'QR' : '',
         approveAction: ButtonKind.ApproveTapButton,
       })
       const app = new CosmosApp(sim.getTransport())
