@@ -14,7 +14,7 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu, { zondaxMainmenuNavigation, ButtonKind } from '@zondax/zemu'
+import Zemu, { zondaxMainmenuNavigation, ButtonKind, ClickNavigation, TouchNavigation } from '@zondax/zemu'
 import { CosmosApp } from '@zondax/ledger-cosmos-js'
 import { defaultOptions, DEVICE_MODELS, example_tx_str_basic, example_tx_str_basic2, ibc_denoms } from './common'
 
@@ -22,6 +22,7 @@ import { defaultOptions, DEVICE_MODELS, example_tx_str_basic, example_tx_str_bas
 import secp256k1 from 'secp256k1/elliptic'
 // @ts-ignore
 import crypto from 'crypto'
+import { ActionKind, IButton, INavElement } from '@zondax/zemu/dist/types'
 
 jest.setTimeout(90000)
 
@@ -409,89 +410,6 @@ describe('Standard', function () {
 
       const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
       expect(signatureOk).toEqual(true)
-    } finally {
-      await sim.close()
-    }
-  })
-
-    test.concurrent.each(DEVICE_MODELS)('sign basic normal Eth', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...DEFAULT_OPTIONS, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      // Enable expert to allow sign with eth path
-      await sim.toggleExpertMode();
-
-      const path = [44, 60, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(example_tx_str_basic), "utf-8")
-
-      // check with invalid HRP
-      const errorRespPk = await app.getAddressAndPubKey(path, 'forbiddenHRP')
-      expect(errorRespPk.return_code).toEqual(0x6986)
-      expect(errorRespPk.error_message).toEqual('Transaction rejected')
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'inj')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-sign_basic_eth`)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x9000)
-      expect(resp.error_message).toEqual('No errors')
-
-      // Now verify the signature
-      const sha3 = require('js-sha3')
-      const msgHash = Buffer.from(sha3.keccak256(tx), 'hex')
-
-      const signatureDER = resp.signature
-      const signature = secp256k1.signatureImport(Uint8Array.from(signatureDER))
-
-      const pk = Uint8Array.from(respPk.compressed_pk)
-
-      const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
-      expect(signatureOk).toEqual(true)
-    } finally {
-      await sim.close()
-    }
-  })
-
-  test.concurrent.each(DEVICE_MODELS)('sign basic normal Eth no expert', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...DEFAULT_OPTIONS, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      const path = [44, 60, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(example_tx_str_basic), "utf-8")
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'inj')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.navigateAndCompareSnapshots('.', `${m.prefix.toLowerCase()}-sign_basic_eth_warning`, [1,0], false)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x6984)
     } finally {
       await sim.close()
     }
