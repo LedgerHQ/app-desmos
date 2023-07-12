@@ -130,7 +130,12 @@ describe('Standard', function () {
     test.concurrent.each(DEVICE_MODELS)('show Eth address', async function (m) {
     const sim = new Zemu(m.path)
     try {
-      await sim.start({ ...DEFAULT_OPTIONS, model: m.name })
+      await sim.start({
+        ...defaultOptions,
+        model: m.name,
+        approveKeyword: m.name === 'stax' ? 'Path' : '',
+        approveAction: ButtonKind.ApproveTapButton,
+      })
       const app = new CosmosApp(sim.getTransport())
 
       // Derivation path. First 3 items are automatically hardened!
