@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-#define CLA                  0x55
+#define CLA                  0x55u
 
 #define HDPATH_LEN_DEFAULT   5
 
@@ -57,11 +57,11 @@ typedef enum {
 
 #define COIN_DEFAULT_CHAINID                "desmos-mainnet"
 
-// In non-expert mode, the app will convert from udesmos to DESMOS
+// In non-expert mode, the app will convert from udsm to DSM
 #define COIN_DEFAULT_DENOM_BASE             "udsm"
 #define COIN_DEFAULT_DENOM_REPR             "DSM"
-#define COIN_DEFAULT_DENOM_FACTOR           6
-#define COIN_DEFAULT_DENOM_TRIMMING         6
+#define COIN_DEFAULT_DENOM_FACTOR           6u
+#define COIN_DEFAULT_DENOM_TRIMMING         6u
 
 // Coin denoms may be up to 128 characters long
 // https://github.com/cosmos/cosmos-sdk/blob/master/types/coin.go#L780

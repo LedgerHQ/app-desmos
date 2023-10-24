@@ -142,7 +142,6 @@ static bool process_chunk(volatile uint32_t *tx, uint32_t rx) {
             tx_initialize();
             tx_reset();
             extractHDPath_HRP(rx, OFFSET_DATA);
-
             return false;
         case P1_ADD:
             added = tx_append(&(G_io_apdu_buffer[OFFSET_DATA]), rx - OFFSET_DATA);
@@ -211,7 +210,7 @@ __Z_INLINE void handleSign(volatile uint32_t *flags, volatile uint32_t *tx, uint
         THROW(APDU_CODE_DATA_INVALID);
     }
 
-    parser_tx_obj.own_addr = (const char *) (G_io_apdu_buffer + VIEW_ADDRESS_OFFSET_SECP256K1);
+    parser_tx_obj.tx_json.own_addr = (const char *) (G_io_apdu_buffer + VIEW_ADDRESS_OFFSET_SECP256K1);
     const char *error_msg = tx_parse(sign_type);
 
     if (error_msg != NULL) {

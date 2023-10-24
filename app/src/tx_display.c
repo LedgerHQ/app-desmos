@@ -639,6 +639,7 @@ parser_error_t tx_display_translation(char *dst, uint16_t dstLen, char *src, uin
     *dst = 0;
     return parser_ok;
 }
+
 #ifdef __cplusplus
 #pragma clang diagnostic pop
 #endif
