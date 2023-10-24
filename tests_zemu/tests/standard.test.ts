@@ -87,7 +87,7 @@ describe('Standard', function () {
 
       expect(resp.bech32_address).toEqual('desmos1k3pegwjj0nh4cwmr7uav5v9hrxqy4j9qan3wj0')
       expect(resp.compressed_pk.length).toEqual(33)
-      expect(resp.compressed_pk.toString("hex")).toEqual('035c986b9ae5fbfb8e1e9c12c817f5ef8fdb821cdecaa407f1420ec4f8f1d766bf')
+      expect(resp.compressed_pk.toString("hex")).toEqual('02ce73d374e441dadee01af8b38c5191d27b232ce162459add8d5119640cb25df3')
     } finally {
       await sim.close()
     }
@@ -107,7 +107,6 @@ describe('Standard', function () {
       // Derivation path. First 3 items are automatically hardened!
       const path = [44, 852, 5, 0, 3]
       const respRequest = app.showAddressAndPubKey(path, 'desmos')
-
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
       await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-show_address`)
@@ -123,7 +122,7 @@ describe('Standard', function () {
 
       expect(resp.bech32_address).toEqual('desmos1k3pegwjj0nh4cwmr7uav5v9hrxqy4j9qan3wj0')
       expect(resp.compressed_pk.length).toEqual(33)
-      expect(resp.compressed_pk.toString("hex")).toEqual('035c986b9ae5fbfb8e1e9c12c817f5ef8fdb821cdecaa407f1420ec4f8f1d766bf')
+      expect(resp.compressed_pk.toString("hex")).toEqual('02ce73d374e441dadee01af8b38c5191d27b232ce162459add8d5119640cb25df3')
     } finally {
       await sim.close()
     }
@@ -142,7 +141,7 @@ describe('Standard', function () {
 
       // Derivation path. First 3 items are automatically hardened!
       const path = [44, 60, 0, 0, 1]
-      const hrp = 'inj'
+      const hrp = 'desmos'
 
       // check with invalid HRP
       const errorRespPk = await app.getAddressAndPubKey(path, 'cosmos')
@@ -176,7 +175,7 @@ describe('Standard', function () {
       const eth_address = bech32.encode(hrp, bech32.toWords(ethereumAddressBuffer)); // "cosmos15n2h0lzvfgc8x4fm6fdya89n78x6ee2fm7fxr3"
 
       expect(resp.bech32_address).toEqual(eth_address)
-      expect(resp.bech32_address).toEqual('inj15n2h0lzvfgc8x4fm6fdya89n78x6ee2f3h7z3f')
+      expect(resp.bech32_address).toEqual('desmos15n2h0lzvfgc8x4fm6fdya89n78x6ee2f0xyk5f')
     } finally {
       await sim.close()
     }
@@ -238,185 +237,6 @@ describe('Standard', function () {
 
       expect(resp.bech32_address).toEqual('desmos1v98s2c4snzt55kjq3g5cqzmzs753vr8qgw7zwx')
       expect(resp.compressed_pk.length).toEqual(33)
-    } finally {
-      await sim.close()
-    }
-  })
-
-  test.concurrent.each(DEVICE_MODELS)('sign basic normal', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...defaultOptions, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      const path = [44, 118, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(example_tx_str_basic), 'utf-8')
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'cosmos')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-sign_basic`)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x9000)
-      expect(resp.error_message).toEqual('No errors')
-      expect(resp).toHaveProperty('signature')
-
-      // Now verify the signature
-      const hash = crypto.createHash('sha256')
-      const msgHash = Uint8Array.from(hash.update(tx).digest())
-
-      const signatureDER = resp.signature
-      const signature = secp256k1.signatureImport(Uint8Array.from(signatureDER))
-
-      const pk = Uint8Array.from(respPk.compressed_pk)
-
-      const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
-      expect(signatureOk).toEqual(true)
-    } finally {
-      await sim.close()
-    }
-  })
-
-  test.concurrent.each(DEVICE_MODELS)('sign basic normal2', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...defaultOptions, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      const path = [44, 118, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(example_tx_str_basic2), 'utf-8')
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'cosmos')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-sign_basic2`)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x9000)
-      expect(resp.error_message).toEqual('No errors')
-
-      // Now verify the signature
-      const hash = crypto.createHash('sha256')
-      const msgHash = Uint8Array.from(hash.update(tx).digest())
-
-      const signatureDER = resp.signature
-      const signature = secp256k1.signatureImport(Uint8Array.from(signatureDER))
-
-      const pk = Uint8Array.from(respPk.compressed_pk)
-
-      const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
-      expect(signatureOk).toEqual(true)
-    } finally {
-      await sim.close()
-    }
-  })
-
-  test.concurrent.each(DEVICE_MODELS)('sign basic with extra fields', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...defaultOptions, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      const path = [44, 118, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(example_tx_str_basic), 'utf-8')
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'cosmos')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-sign_basic_extra_fields`)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x9000)
-      expect(resp.error_message).toEqual('No errors')
-      expect(resp).toHaveProperty('signature')
-
-      // Now verify the signature
-      const hash = crypto.createHash('sha256')
-      const msgHash = Uint8Array.from(hash.update(tx).digest())
-
-      const signatureDER = resp.signature
-      const signature = secp256k1.signatureImport(Uint8Array.from(signatureDER))
-
-      const pk = Uint8Array.from(respPk.compressed_pk)
-
-      const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
-      expect(signatureOk).toEqual(true)
-    } finally {
-      await sim.close()
-    }
-  })
-
-  test.concurrent.each(DEVICE_MODELS)('ibc denoms', async function (m) {
-    const sim = new Zemu(m.path)
-    try {
-      await sim.start({ ...defaultOptions, model: m.name })
-      const app = new CosmosApp(sim.getTransport())
-
-      const path = [44, 118, 0, 0, 0]
-      const tx = Buffer.from(JSON.stringify(ibc_denoms), 'utf-8')
-
-      // get address / publickey
-      const respPk = await app.getAddressAndPubKey(path, 'cosmos')
-      expect(respPk.return_code).toEqual(0x9000)
-      expect(respPk.error_message).toEqual('No errors')
-      console.log(respPk)
-
-      // do not wait here..
-      const signatureRequest = app.sign(path, tx)
-
-      // Wait until we are not in the main menu
-      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-ibc_denoms`)
-
-      const resp = await signatureRequest
-      console.log(resp)
-
-      expect(resp.return_code).toEqual(0x9000)
-      expect(resp.error_message).toEqual('No errors')
-      expect(resp).toHaveProperty('signature')
-
-      // Now verify the signature
-      const hash = crypto.createHash('sha256')
-      const msgHash = Uint8Array.from(hash.update(tx).digest())
-
-      const signatureDER = resp.signature
-      const signature = secp256k1.signatureImport(Uint8Array.from(signatureDER))
-
-      const pk = Uint8Array.from(respPk.compressed_pk)
-
-      const signatureOk = secp256k1.ecdsaVerify(signature, msgHash, pk)
-      expect(signatureOk).toEqual(true)
     } finally {
       await sim.close()
     }

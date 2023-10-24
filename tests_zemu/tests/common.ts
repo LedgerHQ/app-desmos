@@ -118,14 +118,14 @@ export const example_tx_str_basic = {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
         delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
-        validator_address: 'desmosvaloper1nxu2qzdheycs58k6j9xgvpz3n35a4rvn8dydw2',
+        validator_address: 'cosmosvaloper1kn3wugetjuy4zetlq6wadchfhvu3x740ae6z6x',
       },
     },
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
         delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
-        validator_address: 'desmosvaloper1gupgnsfgvs08watwtfdl4a5r9589cus3f36mhz',
+        validator_address: 'cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0',
       },
     },
   ],
@@ -134,12 +134,12 @@ export const example_tx_str_basic = {
 
 export const example_tx_str_expert = {
   account_number: '108',
-  chain_id: 'cosmoshub-2',
+  chain_id: 'des,op',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -166,12 +166,12 @@ export const example_tx_str_expert = {
 
 export const example_tx_str_combined = {
   account_number: '108',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -181,7 +181,7 @@ export const example_tx_str_combined = {
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1648ynlpdw7fqa2axt0w2yp3fk542junl7rsvq6',
       },
     },
@@ -190,9 +190,9 @@ export const example_tx_str_combined = {
       value: {
         amount: {
           amount: '20139397',
-          denom: 'uatom',
+          denom: 'udsm',
         },
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1648ynlpdw7fqa2axt0w2yp3fk542junl7rsvq6',
       },
     },
@@ -228,13 +228,13 @@ export const example_tx_str_basic2 = {
 
 export const example_tx_str_basic_extra_fields = {
   account_number: '108',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   extra_field: 'empty',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -245,14 +245,14 @@ export const example_tx_str_basic_extra_fields = {
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1kn3wugetjuy4zetlq6wadchfhvu3x740ae6z6x',
       },
     },
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0',
       },
     },
@@ -278,7 +278,7 @@ export const ibc_denoms = {
     {
       inputs: [
         {
-          address: "desmosaccaddr1d9h8qat5e4ehc5",
+          address: "cosmosaccaddr1d9h8qat5e4ehc5",
           coins: [
             {
               amount: '10',
@@ -289,7 +289,7 @@ export const ibc_denoms = {
       ],
       outputs: [
         {
-          address: 'desmosaccaddr1da6hgur4wse3jx32',
+          address: 'cosmosaccaddr1da6hgur4wse3jx32',
           coins: [
             {
               amount: '10',
@@ -310,7 +310,7 @@ export const setWithdrawAddress = {
       amount: [
         {
           amount: '5000',
-          denom: 'uatom'
+          denom: 'udsm'
         }
       ],
       gas: '200000'
