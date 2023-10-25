@@ -1,5 +1,5 @@
 /** ******************************************************************************
- *  (c) 2021-2022 Zondax GmbH
+ *  (c) 2021-2023 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,30 +13,92 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { DEFAULT_START_OPTIONS, DeviceModel } from '@zondax/zemu'
-import {DEFAULT_KEY_DELAY} from "@zondax/zemu/src/constants";
+import { DEFAULT_START_OPTIONS, IDeviceModel } from '@zondax/zemu'
 
 const Resolve = require('path').resolve
 
+export const AMINO_JSON_TX = 0x0
+export const TEXTUAL_TX = 0x1
 export const APP_SEED = 'equip will roof matter pink blind book anxiety banner elbow sun young'
 
 const APP_PATH_S = Resolve('../app/output/app_s.elf')
 const APP_PATH_X = Resolve('../app/output/app_x.elf')
 const APP_PATH_SP = Resolve('../app/output/app_s2.elf')
+const APP_PATH_ST = Resolve('../app/output/app_stax.elf')
 
-export const DEFAULT_OPTIONS = {
+export const defaultOptions = {
   ...DEFAULT_START_OPTIONS,
   logging: true,
   custom: `-s "${APP_SEED}"`,
-  pressDelay: 1500,
   X11: false,
 }
 
-export const DEVICE_MODELS: DeviceModel[] = [
+export const DEVICE_MODELS: IDeviceModel[] = [
   { name: 'nanos', prefix: 'S', path: APP_PATH_S },
   { name: 'nanox', prefix: 'X', path: APP_PATH_X },
   { name: 'nanosp', prefix: 'SP', path: APP_PATH_SP },
+  { name: 'stax', prefix: 'ST', path: APP_PATH_ST },
 ]
+
+export const tx_sign_textual = 'a10192a20168436861696e20696402686d792d636861696ea2016e4163636f756e74206e756d626572026131a2016853657175656e6365026132a301674164647265737302782d636f736d6f7331756c6176336873656e7570737771666b77327933737570356b677471776e767161386579687304f5a3016a5075626c6963206b657902781f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657904f5a3026d5075624b6579206f626a656374030104f5a401634b657902785230324542204444374620453446442045423736204443384120323035452046363544203739304320443330452038413337203541354320323532382045423341203932334120463146422034443739203444030204f5a102781e54686973207472616e73616374696f6e206861732031204d657373616765a3016d4d6573736167652028312f312902781c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e640301a2026e4d736753656e64206f626a6563740302a3016c46726f6d206164647265737302782d636f736d6f7331756c6176336873656e7570737771666b77327933737570356b677471776e76716138657968730303a3016a546f206164647265737302782d636f736d6f7331656a726634637572327779366b667572673966326a707070326833616665356836706b6835740303a30166416d6f756e74026731302041544f4d0303a1026e456e64206f66204d657373616765a201644d656d6f0278193e20e29a9befb88f5c7532363942e29a9befb88f2020202020a2016446656573026a302e3030322041544f4da30169476173206c696d697402673130302730303004f5a3017148617368206f66207261772062797465730278403963303433323930313039633237306232666661396633633066613535613039306330313235656265663838316637646135333937386462663933663733383504f5'
+
+export const example_tx_str_msgMultiSend = {
+      "account_number":"10",
+      "chain_id":"chain-WiONzW",
+      "fee":{
+        "amount":[],
+        "gas":"200000"
+        },
+      "memo":"",
+      "msgs":[
+        {
+          "type":"cosmos-sdk/MsgMultiSend",
+          "value": {
+            "inputs":[
+              {
+                "address":"cosmos1w4efqfklkezgyt6lncjdwxncrzyzpr2efzcqal",
+                "coins":[
+                  {
+                    "amount":"30",
+                    "denom":"stake"
+                  }
+                ]
+              }
+            ],
+            "outputs":[
+              {
+                "address":"cosmos184hgxlzat3qhm7p28563w4jyw4aa3wcgnj6gtv",
+                "coins":[
+                  {
+                    "amount":"10",
+                    "denom":"stake"
+                  }
+                ]
+              },
+              {
+                "address":"cosmos1pfyz36qx8z8dm8ktd75mwx5j5vsmkzfn7wrgp9",
+                "coins":[
+                  {
+                    "amount":"10",
+                    "denom":"stake"
+                  }
+                ]
+              },
+              {
+                "address":"cosmos1xu388ml6krya3ysmlrup2ylxjtzhl4hlaem3ng",
+                "coins":[
+                  {
+                    "amount":"10",
+                    "denom":"stake"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "sequence":"16",
+}
 
 export const example_tx_str_basic = {
   account_number: '108',
@@ -56,14 +118,14 @@ export const example_tx_str_basic = {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
         delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
-        validator_address: 'desmosvaloper1nxu2qzdheycs58k6j9xgvpz3n35a4rvn8dydw2',
+        validator_address: 'cosmosvaloper1kn3wugetjuy4zetlq6wadchfhvu3x740ae6z6x',
       },
     },
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
         delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
-        validator_address: 'desmosvaloper1gupgnsfgvs08watwtfdl4a5r9589cus3f36mhz',
+        validator_address: 'cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0',
       },
     },
   ],
@@ -72,12 +134,12 @@ export const example_tx_str_basic = {
 
 export const example_tx_str_expert = {
   account_number: '108',
-  chain_id: 'cosmoshub-2',
+  chain_id: 'des,op',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -104,12 +166,12 @@ export const example_tx_str_expert = {
 
 export const example_tx_str_combined = {
   account_number: '108',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -119,7 +181,7 @@ export const example_tx_str_combined = {
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1648ynlpdw7fqa2axt0w2yp3fk542junl7rsvq6',
       },
     },
@@ -128,9 +190,9 @@ export const example_tx_str_combined = {
       value: {
         amount: {
           amount: '20139397',
-          denom: 'uatom',
+          denom: 'udsm',
         },
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1648ynlpdw7fqa2axt0w2yp3fk542junl7rsvq6',
       },
     },
@@ -166,13 +228,13 @@ export const example_tx_str_basic2 = {
 
 export const example_tx_str_basic_extra_fields = {
   account_number: '108',
-  chain_id: 'cosmoshub-4',
+  chain_id: 'desmos-mainnet',
   extra_field: 'empty',
   fee: {
     amount: [
       {
         amount: '600',
-        denom: 'uatom',
+        denom: 'udsm',
       },
     ],
     gas: '200000',
@@ -183,14 +245,14 @@ export const example_tx_str_basic_extra_fields = {
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1kn3wugetjuy4zetlq6wadchfhvu3x740ae6z6x',
       },
     },
     {
       type: 'cosmos-sdk/MsgWithdrawDelegationReward',
       value: {
-        delegator_address: 'cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h',
+        delegator_address: 'desmos1ahp55jj5a0mld3yl67yfwdtr6mfq4d44kuseys',
         validator_address: 'cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0',
       },
     },
@@ -216,7 +278,7 @@ export const ibc_denoms = {
     {
       inputs: [
         {
-          address: "desmosaccaddr1d9h8qat5e4ehc5",
+          address: "cosmosaccaddr1d9h8qat5e4ehc5",
           coins: [
             {
               amount: '10',
@@ -227,7 +289,7 @@ export const ibc_denoms = {
       ],
       outputs: [
         {
-          address: 'desmosaccaddr1da6hgur4wse3jx32',
+          address: 'cosmosaccaddr1da6hgur4wse3jx32',
           coins: [
             {
               amount: '10',
@@ -240,3 +302,59 @@ export const ibc_denoms = {
   ],
   sequence: '1'
 }
+
+export const setWithdrawAddress = {
+    account_number: '8',
+    chain_id: 'testing',
+    fee: {
+      amount: [
+        {
+          amount: '5000',
+          denom: 'udsm'
+        }
+      ],
+      gas: '200000'
+    },
+    memo: '',
+    msgs: [
+      {
+        type: 'cosmos-sdk/MsgSetWithdrawAddress',
+        value: {
+          delegator_address: 'cosmos1hr9x0sjvel6z3vt9qny8sdd5gnnlgk0p69d6cv',
+          withdraw_address: 'cosmos12d64j98tjjpqkx70r08aspc4nvntqp2w6wr2de'
+        }
+      },
+      {
+        type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+        value: {
+          delegator_address: 'cosmos1hr9x0sjvel6z3vt9qny8sdd5gnnlgk0p69d6cv',
+          validator_address: 'cosmosvaloper13dr26wdygna3s8fdl5tlc45m2le2ydyddxzj49'
+        }
+      }
+    ],
+    sequence: '7'
+  }
+
+  export const cliGovDeposit = {
+    account_number: '8',
+    chain_id: 'my-chain',
+    fee: {
+      amount: [],
+      gas: '200000'
+    },
+    memo: 'A B C',
+    msgs: [
+      {
+        type: 'cosmos-sdk/MsgDeposit',
+        value: {
+          amount: [{
+            amount: '10',
+            denom: 'stake',
+          }],
+          depositor: 'cosmos1xl2256vdh0j68khz9wq88hnyqcq0f5f4za2480',
+          proposal_id: '1'
+        }
+      },
+    ],
+    sequence: '2'
+  }
