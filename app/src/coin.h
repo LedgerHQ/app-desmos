@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019-2021 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -19,40 +19,68 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
-#include <stddef.h>
-
-#define CLA                  0x55
+#define CLA                  0x55u
 
 #define HDPATH_LEN_DEFAULT   5
 
 #define HDPATH_0_DEFAULT     (0x80000000u | 0x2cu)
 #define HDPATH_1_DEFAULT     (0x80000000u | 0x354u)
+#define HDPATH_ETH_1_DEFAULT (0x80000000u | 0x3cu)
 #define HDPATH_2_DEFAULT     (0x80000000u | 0u)
 #define HDPATH_3_DEFAULT     (0u)
-#define HDPATH_4_DEFAULT     (0u)
 
 #define PK_LEN_SECP256K1     33u
+#define PK_LEN_SECP256K1_UNCOMPRESSED   65u
 
 typedef enum {
     addr_secp256k1 = 0,
 } address_kind_e;
 
+typedef enum {
+    tx_json = 0,
+    tx_textual
+} tx_type_e;
+
+typedef enum {
+    BECH32_COSMOS = 0,
+    BECH32_ETH,
+    UNSUPPORTED = 0xFF,
+} address_encoding_e;
+
 #define VIEW_ADDRESS_OFFSET_SECP256K1       PK_LEN_SECP256K1
 #define VIEW_ADDRESS_LAST_PAGE_DEFAULT      0
 
-#define MENU_MAIN_APP_LINE1                "DESMOS"
-#define MENU_MAIN_APP_LINE2                "ready"
+#define MENU_MAIN_APP_LINE1                "Desmos"
+#define MENU_MAIN_APP_LINE2                "Ready"
 #define APPVERSION_LINE1                   "Version:"
 #define APPVERSION_LINE2                   ("v" APPVERSION)
 
-#define CRYPTO_BLOB_SKIP_BYTES              0
-#define COIN_DEFAULT_CHAINID                "desmos-1"
+#define COIN_DEFAULT_CHAINID                "desmos-mainnet"
 
-// In non-expert mode, the app will convert from udesmos to DESMOS
-#define COIN_DEFAULT_DENOM_BASE             "udesmos"
-#define COIN_DEFAULT_DENOM_REPR             "DESMOS"
-#define COIN_DEFAULT_DENOM_FACTOR           6
+// In non-expert mode, the app will convert from udsm to DSM
+#define COIN_DEFAULT_DENOM_BASE             "udsm"
+#define COIN_DEFAULT_DENOM_REPR             "DSM"
+#define COIN_DEFAULT_DENOM_FACTOR           6u
+#define COIN_DEFAULT_DENOM_TRIMMING         6u
+
+// Coin denoms may be up to 128 characters long
+// https://github.com/cosmos/cosmos-sdk/blob/master/types/coin.go#L780
+// https://github.com/cosmos/ibc-go/blob/main/docs/architecture/adr-001-coin-source-tracing.md
+#define COIN_DENOM_MAXSIZE                  129
+#define COIN_AMOUNT_MAXSIZE                 50
+
+#define COIN_MAX_CHAINID_LEN                20u
+#define INDEXING_TMP_KEYSIZE                70u
+#define INDEXING_TMP_VALUESIZE              70u
+#define INDEXING_GROUPING_REF_TYPE_SIZE     70u
+#define INDEXING_GROUPING_REF_FROM_SIZE     70u
+
+#define MENU_MAIN_APP_LINE2_SECRET         "?"
+#define COIN_SECRET_REQUIRED_CLICKS         0
+
+#define INS_GET_VERSION                 0x00
+#define INS_SIGN_SECP256K1              0x02u
+#define INS_GET_ADDR_SECP256K1          0x04u
 
 #ifdef __cplusplus
 }

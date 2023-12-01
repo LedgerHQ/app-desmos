@@ -59,11 +59,12 @@ The general structure of commands and responses is as follows:
 | MINOR   | byte (1) | Version Minor    |                                 |
 | PATCH   | byte (1) | Version Patch    |                                 |
 | LOCKED  | byte (1) | Device is locked |                                 |
+| TARGET_ID  | byte (4) | Device ID     | Identifier for NanoS/SP/X/ or Stax  |
 | SW1-SW2 | byte (2) | Return code      | see list of return codes        |
 
 --------------
 
-### INS_GET_ADDR_SECP256K1
+### INS_GET_ADDR
 
 #### Command
 
@@ -78,7 +79,7 @@ The general structure of commands and responses is as follows:
 | HRP_LEN    | byte(1)        | Bech32 HRP Length              | 1<=HRP_LEN<=83 |
 | HRP        | byte (HRP_LEN) | Bech32 HRP                     |                |
 | Path[0]    | byte (4)       | Derivation Path Data           | 44             |
-| Path[1]    | byte (4)       | Derivation Path Data           | 852            |
+| Path[1]    | byte (4)       | Derivation Path Data           | 852 / 60       |
 | Path[2]    | byte (4)       | Derivation Path Data           | ?              |
 | Path[3]    | byte (4)       | Derivation Path Data           | ?              |
 | Path[4]    | byte (4)       | Derivation Path Data           | ?              |
@@ -93,7 +94,7 @@ First three items in the derivation path will be hardened automatically hardened
 | ADDR    | byte (65) | Bech 32 addr          |                          |
 | SW1-SW2 | byte (2)  | Return code           | see list of return codes |
 
-### SIGN_SECP256K1
+### INS_SIGN
 
 #### Command
 
@@ -104,10 +105,12 @@ First three items in the derivation path will be hardened automatically hardened
 | P1    | byte (1) | Payload desc           | 0 = init  |
 |       |          |                        | 1 = add   |
 |       |          |                        | 2 = last  |
-| P2    | byte (1) | ----                   | not used  |
+| P2    | byte (1) | Transaction Format     | 0 = json  |
+|       |          |                        | 1 = textual |
 | L     | byte (1) | Bytes in payload       | (depends) |
 
-The first packet/chunk includes only the derivation path
+The first packet/chunk includes only the derivation path and HRP.
+At the moment, seding HRP is optional but it will be mandatory in a future version.
 
 All other packets/chunks should contain message to sign
 
@@ -115,11 +118,13 @@ All other packets/chunks should contain message to sign
 
 | Field      | Type     | Content                | Expected  |
 | ---------- | -------- | ---------------------- | --------- |
-| Path[0]    | byte (4) | Derivation Path Data   | 44        |
-| Path[1]    | byte (4) | Derivation Path Data   | 852       |
-| Path[2]    | byte (4) | Derivation Path Data   | ?         |
-| Path[3]    | byte (4) | Derivation Path Data   | ?         |
-| Path[4]    | byte (4) | Derivation Path Data   | ?         |
+| Path[0]    | byte (4)       | Derivation Path Data           | 44             |
+| Path[1]    | byte (4)       | Derivation Path Data           | 852 / 60       |
+| Path[2]    | byte (4)       | Derivation Path Data           | ?              |
+| Path[3]    | byte (4)       | Derivation Path Data           | ?              |
+| Path[4]    | byte (4)       | Derivation Path Data           | ?              |
+| HRP_LEN    | byte(1)        | Bech32 HRP Length              | 1<=HRP_LEN<=83 |
+| HRP        | byte (HRP_LEN) | Bech32 HRP                     |                |
 
 *Other Chunks/Packets*
 
@@ -131,7 +136,13 @@ All other packets/chunks should contain message to sign
 
 | Field   | Type      | Content     | Note                     |
 | ------- | --------- | ----------- | ------------------------ |
-| SIG     | byte (64) | Signature   |                          |
+| SIG     | byte (variable) | Signature   |                          |
 | SW1-SW2 | byte (2)  | Return code | see list of return codes |
+
+The signature data is DER encoded. The returned bytes have the following structure.
+
+```
+0x30 <length of whole message> <0x02> <length of R> <R> 0x2 <length of S> <S>
+```
 
 --------------

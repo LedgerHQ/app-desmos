@@ -16,28 +16,26 @@
 
 #pragma once
 
-#include <zxmacros.h>
-#include "coin.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include <zxmacros.h>
+#include "coin.h"
+#include <stdbool.h>
+#include <sigutils.h>
+#include "zxerror.h"
+
 #define MAX_BECH32_HRP_LEN      83u
 
 extern uint32_t hdPath[HDPATH_LEN_DEFAULT];
-extern char *hrp;
+extern char bech32_hrp[MAX_BECH32_HRP_LEN + 1];
+extern uint8_t bech32_hrp_len;
+extern address_encoding_e encoding;
 
-uint8_t extractHRP(uint32_t rx, uint32_t offset);
+zxerr_t crypto_fillAddress(uint8_t *buffer, uint16_t bufferLen, uint16_t *addrResponseLen);
 
-void crypto_set_hrp(char *p);
-
-uint16_t crypto_fillAddress(uint8_t *buffer, uint16_t bufferLen);
-
-uint16_t crypto_sign(uint8_t *signature,
-                     uint16_t signatureMaxlen,
-                     const uint8_t *message,
-                     uint16_t messageLen);
+zxerr_t crypto_sign(uint8_t *signature, uint16_t signatureMaxlen, uint16_t *signatureLen);
 
 #ifdef __cplusplus
 }

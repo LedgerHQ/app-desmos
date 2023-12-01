@@ -79,12 +79,23 @@ cmake-build-fuzz/
 
 \deps/*
 !\deps/nanos-secure-sdk
-\deps/nano2-sdk
+!\deps/nanox-secure-sdk
 !\deps/ledger-zxlib
 !\deps/tinycbor
+!\deps/tinycbor-ledger
 !\deps/BLAKE
 
 app/src/glyphs.c
 
 app/src/glyphs.h
 /build
+.vscode/dryrun.log
+.vscode/targets.log
+app/build/*
+.DS_Store
+
+fuzz-*.log
+/fuzz/corpora
+
+.vscode/
+tests_zemu/yarn.lock
