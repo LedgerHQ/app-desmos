@@ -4,7 +4,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/zondax/ledger-cosmos/badge)](https://www.codefactor.io/repository/github/zondax/ledger-cosmos)
 
 This project contains the Desmos app for Ledger Nano S and X. This project is forked from [Ledger Cosmos app](https://github.com/LedgerHQ/app-cosmos).
-
 - Ledger Nano S/X Desmos app
 - Specs / Documentation
 - C++ unit tests
